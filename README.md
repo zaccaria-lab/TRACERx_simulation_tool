@@ -15,16 +15,16 @@ Creating simulations using the tools requires the following packages:
 
 These packages can be installed using anaconda into a new environment and used to create simulations using the following commands:
 
-'''
+```shell 
 conda create -n simulate python=3.9.5 jupyter ipykernel pandas numpy ipython scipy python-graphviz
 conda activate simulate
-'''
+```
 
 Then clone the current repo to run the tool using:
 
-'''
+```shell
 git clone https://github.com/zaccaria-lab/TRACERx_simulation_tool.git
-'''
+```
 
 Simulations can be created using the jupyter notebook 'make_tx_simulations.ipynb' within the scripts directory.
 
