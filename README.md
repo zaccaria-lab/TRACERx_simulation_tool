@@ -35,10 +35,7 @@ The tool takes the following inputs -
 
 (The default values are those used to create simulations used to benchmark the TRACERx tree reconstruction tool).
 
-1. n_sims_per_sample_group - The number of simulations you would like to create. If the sample_group_boundaries parameter is not set to None, the number of simulations set will be created for each of the sample groups. (Default: 50). Each simulations will be named 'LTXSIM{simulation number}'. In the case of separate sample groups, simulations will be numbered as follows: 
- - Low: (1 - n_sims_per_sample_group)
- - Medium: (n_sims_per_sample_group + 1, 2 * n_sims_per_sample_group)
- - High: ((2 * n_sims_per_sample_group) + 1, 3 * n_sims_per_sample_group).
+1. n_sims_per_sample_group - The number of simulations you would like to create. If the sample_group_boundaries parameter is not set to None, the number of simulations set will be created for each of the sample groups. (Default: 50). 
 
 2. sample_group_boundaries - Enables the possibility to split the data into 3 groups (low, medium and high) in terms of the number of samples available for each patient. Setting this parameter to a tuple (a,b) will create simulations sampled from data of patients with samples:
 - Low: <= a (# nodes sampled uniformly from 8-16)
@@ -50,6 +47,13 @@ Alternatively, setting this value to None will use all patient data to create si
 
 
 ## Outputs:
+
+Each simulations will be named 'LTXSIM{simulation number}'. In the case of separate sample groups, simulations will be numbered as follows: 
+ - Low: (1 - n_sims_per_sample_group)
+ - Medium: (n_sims_per_sample_group + 1, 2 * n_sims_per_sample_group)
+ - High: ((2 * n_sims_per_sample_group) + 1, 3 * n_sims_per_sample_group).
+
+
 The tool provides the following outputs shown as: output file name if returned (output suffix if saved) -
 
 1. patient_info_df (_info.tsv) - The parameters used to create the simulation.
