@@ -19,6 +19,8 @@ conda create -n simulate python=3.9 jupyter ipykernel pandas numpy ipython scipy
 
 conda activate simulate
 
+Simulations can be created using the jupyter notebook 'make_tx_simulations.ipynb' within the scripts directory.
+
 
 ## Inputs:
 The tool takes the following inputs -
