@@ -26,9 +26,14 @@ Then clone the current repo to run the tool using:
 git clone https://github.com/zaccaria-lab/TRACERx_simulation_tool.git
 ```
 ## Running the tool:
+### Scripts - 
 
 Simulations can be created using the jupyter notebook 'make_tx_simulations.ipynb' within the scripts directory.
-To create simulations, change the input parameter values to desired values and run all cells.
+To create simulations, change the input parameter values to desired values and run cells in the section 1. Code to create TRACERx simulated evolutionary trees and sequencing data. The following section 2. Example Simulation gives an example of the output when creating a simulation.
+
+### Data - 
+
+The tool uses genomic summary data for TRACERx patients to create realistic evolutionary simulations. Currently, the data provided to make simulations with the tool is a simulated dataset of patient summary genomic information, however this will be replaced once the data is available.
 
 
 ### Inputs:
