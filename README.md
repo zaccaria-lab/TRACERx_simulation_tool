@@ -42,6 +42,7 @@ The tool takes the following inputs -
 - Low: <= a (# nodes sampled uniformly from 8-16)
 - Medium: > a, <= b (# nodes sampled uniformly from 12-24)
 - High: > b (# nodes sampled uniformly from 22-30)
+
 Alternatively, setting this value to None will use all patient data to create simulations (# nodes sampled uniformly from 8-30). (Default: (3,7))
 
 3. output_dir - The output directory to save the simulation output. If this value is set to a file path, a separate directory will be created for each simulation with the prefix 'LTXSIM' within the output directory specified. Alternatively, if the output_directory is None, the simulation phylogenetic tree diagram will be printed and simulation output will be saved to a dictionary within the jupyter notebook where each simulation output can be accessed with 'LTXSIM{simulation number}'. (Default: None)
