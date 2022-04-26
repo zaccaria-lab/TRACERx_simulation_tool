@@ -13,7 +13,7 @@ Creating simulations using the tool requires the following packages:
 - Scipy 
 - Python-graphviz 
 
-These packages can be installed using anaconda into a new environment and used to create simulations using the following commands:
+These packages can be installed using anaconda into a new environment (simulate) and used to create simulations using the following commands:
 
 ```shell 
 conda create -n simulate python=3.9.5 jupyter ipykernel pandas numpy ipython scipy python-graphviz
