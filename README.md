@@ -51,9 +51,9 @@ The tool takes the following inputs -
 ### Outputs:
 
 Each simulations will be named 'LTXSIM{simulation number}'. In the case of separate sample groups, simulations will be numbered as follows: 
- - Low: (1 - n_sims_per_sample_group)
- - Medium: (n_sims_per_sample_group + 1, 2 * n_sims_per_sample_group)
- - High: ((2 * n_sims_per_sample_group) + 1, 3 * n_sims_per_sample_group).
+ - Low: (1, ...,  n_sims_per_sample_group)
+ - Medium: (n_sims_per_sample_group + 1, ...,  2 * n_sims_per_sample_group)
+ - High: ((2 * n_sims_per_sample_group) + 1, ..., 3 * n_sims_per_sample_group).
 
 
 The tool provides the following outputs shown as: output file name if returned (output suffix if saved) -
