@@ -72,160 +72,6 @@ def create_event_dict(positions, n_samples, events=None):
         return event_dict, remaining_dict
 
 
-# def cna_assignment(positions, nodes, edges, leaves, root, initial_cc, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, constant_multiplicity=True, snv_edge_assign=None, prop_mutloss_positions=0, gain_events=None, loss_events=None, mutloss_truncal=False):
-    
-#     assert np.round((prop_pos_lost + prop_pos_gained),2) <= 1, 'The sum of the proportion of positions lost and gained must be <= 1'
-
-#     if gain_events is None:
-#         gain_events = ['gain_A', 'gain_B', 'gain_both']
-#     if loss_events is None:
-#         loss_events = ['loss_B', 'cnloh_B']
-
-#     warnings = []
-
-#     subclone_nodes = np.array([i for i in nodes if i != root and i != initial_cc])
-#     if constant_multiplicity == False:
-#         truncal_cnas, subclonal_cnas, subclonal_cnas_assign, calculated_mutation_loss, warnings = sc_cna(positions, subclone_nodes, snv_edge_assign, root, edges, leaves, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, prop_mutloss_positions, gain_events, loss_events, warnings)
-        
-#     else:
-#         truncal_cnas, subclonal_cnas, subclonal_cnas_assign, calculated_mutation_loss, warnings = no_sc_cna(positions, snv_edge_assign, root, edges, leaves, subclone_nodes, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, prop_mutloss_positions, gain_events, loss_events, warnings)
-#     print(subclonal_cnas)    
-#     print(subclonal_cnas_assign)
-#     overall_cnas = {i : dict(list(subclonal_cnas.items())[j] for j in list(np.where(subclonal_cnas_assign == i)[0])) for i in subclone_nodes}
-#     print(overall_cnas)
-#     overall_cnas[initial_cc] = truncal_cnas
-#     cna_edge_labels = {l: {'CNA gains': len([q for p, q in j.items() if q in gain_events]), 'CNA losses': len([q for p, q in j.items() if q in loss_events])} for i, j in overall_cnas.items() for l in edges if l[1] == i}
-#     prop_mutation_loss = np.round(sum({l: len([q for p, q in j.items() if q in ['loss_A', 'cnloh_A']]) for i, j in overall_cnas.items() for l in edges if l[1] == i}.values())/len(positions),2)
-#     assert prop_mutation_loss == calculated_mutation_loss
-#     return overall_cnas, subclone_nodes, cna_edge_labels, prop_mutation_loss, warnings
-    
-
-# def sc_cna(positions, subclone_nodes, snv_edge_assign, root, edges, leaves, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, prop_mutloss_positions, gains, losses, warnings):
-#     truncal_cnas, subclonal_cnas = truncal_subclonal(positions, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, gains, losses)
-
-#     if prop_mutloss_positions > 0:
-#         subclonal_cnas, mut_loss_positions, calculated_mutation_loss, warnings = select_lossmutation_positions(prop_mutloss_positions, prop_lost_truncal, positions, subclonal_cnas, leaves, snv_edge_assign, warnings)
-#         mut_loss_cnas_assign = dict(zip(mut_loss_positions, only_subclonal_cnas(subclone_nodes, mut_loss_positions, snv_edge_assign, edges, leaves, root)))
-#         subclonal_cnas_pos = np.array(list(subclonal_cnas.keys()))
-#         subclonal_cnas_pos = subclonal_cnas_pos[~np.isin(subclonal_cnas_pos, mut_loss_positions)]
-#         subclonal_cnas_assign = dict(zip(subclonal_cnas_pos, np.random.choice(subclone_nodes, len(subclonal_cnas_pos)))) | mut_loss_cnas_assign
-#         subclonal_cnas_assign = [subclonal_cnas_assign[k] for k, v in subclonal_cnas.items()]
-#     else:
-#         subclonal_cnas_assign = np.random.choice(subclone_nodes, len(subclonal_cnas_pos))
-#         calculated_mutation_loss = 0
-
-#     return truncal_cnas, subclonal_cnas, subclonal_cnas_assign, calculated_mutation_loss, warnings
-
-
-# def truncal_subclonal(positions, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, gains, losses):
-#     tree_gains, remaining = create_event_dict(positions, int(prop_pos_gained*len(positions)))
-#     tree_losses, remaining = create_event_dict(remaining, int(prop_pos_lost*len(positions)))
-#     truncal_gains, subclonal_gains = create_event_dict(tree_gains, int(prop_gained_truncal*len(tree_gains)), gains)
-#     truncal_losses, subclonal_losses = create_event_dict(tree_losses, int(prop_lost_truncal*len(tree_losses)), losses)
-#     return truncal_gains | truncal_losses, subclonal_gains | subclonal_losses
-
-
-# def no_sc_cna(positions, snv_edge_assign, root, edges, leaves, subclone_nodes, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, prop_mutloss_positions, gains, losses, warnings):
-#     total_truncal_cna = round((len(positions)*prop_pos_gained*prop_gained_truncal) + (len(positions)*prop_pos_lost*prop_lost_truncal))
-#     total_subclonal_cna = round((len(positions)*prop_pos_gained*(1-prop_gained_truncal)) + (len(positions)*prop_pos_lost*(1-prop_lost_truncal)))
-#     root_mutations = [pos for edge, pos in snv_edge_assign.items() if edge[0] == root][0]
-#     subclonal_mutations = positions[~np.isin(positions, root_mutations)]
-
-#     if len(root_mutations) >= total_truncal_cna: # if more root mutations than root cnas --> the %truncalcnas specified will be used to select cnas from truncal snv positions
-#         truncal_cnas, subclonal_cnas, prop_truncal_loss, warnings = nosccna_truncal_subclonal(positions, root_mutations, subclonal_mutations, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, gains, losses, warnings)
-    
-#     else: # if more root cnas than root snvs --> the %truncalcnas specified will be used to select cnas from truncal snv positions plus randomly selected subclonal positions)
-#         truncal_use = np.concatenate([np.array(root_mutations), np.random.choice(subclonal_mutations, total_truncal_cna-len(root_mutations), replace=False)])
-#         subclonal_use = subclonal_mutations[~np.isin(subclonal_mutations, truncal_use)]
-#         truncal_cnas, subclonal_cnas, prop_truncal_loss, warnings = nosccna_truncal_subclonal(positions, truncal_use, subclonal_use, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, gains, losses, warnings)
-
-#     if prop_mutloss_positions > 0:
-#         prop_lost_truncal = prop_truncal_loss if prop_truncal_loss != 0 else prop_lost_truncal
-#         subclonal_cnas, mut_loss_positions, calculated_mutation_loss, warnings = select_lossmutation_positions(prop_mutloss_positions, prop_lost_truncal, positions, subclonal_cnas, leaves, snv_edge_assign, warnings)
-#         mut_loss_cnas_assign = dict(zip(mut_loss_positions, only_subclonal_cnas(subclone_nodes, mut_loss_positions, snv_edge_assign, edges, leaves, root)))
-#         subclonal_cnas_pos = np.array(list(subclonal_cnas.keys()))
-#         subclonal_cnas_pos = subclonal_cnas_pos[~np.isin(subclonal_cnas_pos, mut_loss_positions)]
-#         subclonal_cnas_assign = dict(zip(subclonal_cnas_pos, prevent_subclonal_cnas(subclone_nodes, subclonal_cnas_pos, snv_edge_assign, edges, leaves, root))) | mut_loss_cnas_assign
-#         subclonal_cnas_assign = [subclonal_cnas_assign[k] for k, v in subclonal_cnas.items()]
-#     else:
-#         subclonal_cnas_pos = list(subclonal_cnas.keys())
-#         subclonal_cnas_assign = prevent_subclonal_cnas(subclone_nodes, subclonal_cnas_pos, snv_edge_assign, edges, leaves, root)
-#         calculated_mutation_loss = 0
-
-#     return truncal_cnas, subclonal_cnas, subclonal_cnas_assign, calculated_mutation_loss, warnings
-    
-
-# def select_lossmutation_positions(prop_mut_loss, prop_lost_truncal, positions, subclonal_cnas, leaves, snv_edge_assign, warnings):
-#     prop_subclonal_mut_loss = np.min([0 if (1-prop_lost_truncal) == 0 else (prop_mut_loss/(1-prop_lost_truncal)),1])
-#     subclonal_loss_positions = np.array([k for k,v in subclonal_cnas.items() if v in ['cnloh_B', 'loss_B']])
-#     leaf_positions = [i for edge, pos in snv_edge_assign.items() for i in pos if edge[1] in leaves]#[0]
-#     mut_loss_positions = subclonal_loss_positions[~np.isin(subclonal_loss_positions, leaf_positions)]
-#     n_mutation_loss = np.minimum(round(prop_subclonal_mut_loss * len(subclonal_loss_positions)), len(mut_loss_positions))
-#     mutation_loss_positions = np.random.choice(mut_loss_positions, n_mutation_loss, replace=False)
-#     new_subclonal_cnas = {k:v.replace('B', 'A') if k in mutation_loss_positions else v for k, v in subclonal_cnas.items()}
-#     new_prop_mut_loss = np.round(n_mutation_loss/len(positions), 2)
-#     if prop_mut_loss > new_prop_mut_loss:
-#         warning = 'WARNING: Due to % subclonal losses, the proportion of mutations lost is capped to {}'.format(new_prop_mut_loss)
-#         print(warning)
-#         warnings.append(warning)
-#     return new_subclonal_cnas, mutation_loss_positions, new_prop_mut_loss, warnings
-
-
-# def nosccna_truncal_subclonal(positions, truncal_positions, subclonal_positions, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, gains, losses, warnings):
-#     n_pos_truncal_gain = round((len(positions)*prop_pos_gained*prop_gained_truncal))
-#     n_pos_truncal_loss = np.minimum(round(len(positions)*prop_pos_lost*prop_lost_truncal), (len(truncal_positions) - n_pos_truncal_gain))
-#     n_pos_subclonal_gain = round(len(positions)*prop_pos_gained*(1-prop_gained_truncal))
-#     n_pos_subclonal_loss = round(len(positions)*prop_pos_lost*(1-prop_lost_truncal))
-
-#     if (n_pos_subclonal_gain + n_pos_subclonal_loss) > len(subclonal_positions): # if more subclonal cnas that subclonal snvs --> the proportion of subclonal cnas will be capped (maintaining the subclonal loss:gain ratio)
-#         warning = 'WARNING: The % subclonal CNAs > % subclonal SNVs and the constant_multiplicity is set to True. The proportion of subclonal CNAs is capped to {}'.format(1-prop_snv_truncal)
-#         print(warning)
-#         warnings.append(warning)
-#         diff = len(subclonal_positions) / (n_pos_subclonal_gain + n_pos_subclonal_loss)
-#         n_pos_subclonal_gain = round(n_pos_subclonal_gain * diff)
-#         n_pos_subclonal_loss = np.minimum(round(n_pos_subclonal_loss * diff), (len(subclonal_positions) - n_pos_subclonal_gain))
-#         prop_truncal_loss = prop_snv_truncal * prop_pos_lost
-
-#     else:
-#         prop_truncal_loss = 0
-
-#     truncal_gains, truncal_remaining = create_event_dict(truncal_positions, n_pos_truncal_gain, gains)
-#     truncal_losses, remaining = create_event_dict(np.array(list(truncal_remaining.keys())), n_pos_truncal_loss, losses)
-#     subclonal_gains, subclonal_remaining = create_event_dict(subclonal_positions, n_pos_subclonal_gain, gains)
-#     subclonal_losses, remaining = create_event_dict(np.array(list(subclonal_remaining.keys())), n_pos_subclonal_loss, losses)
-
-#     return truncal_gains | truncal_losses, subclonal_gains | subclonal_losses, prop_truncal_loss, warnings
-
-
-# def prevent_subclonal_cnas(subclone_nodes, subclonal_cnas, snv_edge_assignment, edges, leaves, root):
-#     descendants = {edge: get_descendants(edge, edges, leaves, [])[1:] for edge in edges}# if edge[0] != root}
-#     snv_edge_assignment = {i:j for i, j in snv_edge_assignment.items() if i[0] != root}
-#     subclonal_cna_edges = {pos: np.random.choice(subclone_nodes[~np.isin(subclone_nodes, descendants[edge])]) for edge in snv_edge_assignment.keys() for pos in snv_edge_assignment[edge] if pos in subclonal_cnas}
-#     cna_edges = [subclonal_cna_edges[pos] for pos in subclonal_cnas if pos in subclonal_cna_edges.keys()]
-#     return cna_edges  
-
-
-# def only_subclonal_cnas(subclone_nodes, subclonal_cnas, snv_edge_assignment, edges, leaves, root):
-#     descendants = {edge: get_descendants(edge, edges, leaves, [])[1:] for edge in edges}# if edge[0] != root}
-#     snv_edge_assignment = {i:j for i, j in snv_edge_assignment.items()}# if i[0] != root}
-#     subclonal_cna_edges = {pos: np.random.choice(subclone_nodes[np.isin(subclone_nodes, descendants[edge])]) for edge in snv_edge_assignment.keys() for pos in snv_edge_assignment[edge] if pos in subclonal_cnas}
-#     cna_edges = [subclonal_cna_edges[pos] for pos in subclonal_cnas if pos in subclonal_cna_edges.keys()]
-#     return cna_edges  
-
-
-# def get_descendants(edge, edges, leaves, descendants=[]):
-#     if edge[-1] in leaves:
-#         descendants.append(edge[-1])
-#         return descendants
-#     else:
-#         descendants.append(edge[-1])
-#         edge_children = [i for i in edges if i[0] == edge[1]]
-#         for j in edge_children:
-#             descendants = get_descendants(j, edges, leaves, descendants)
-#         return descendants
-
-
-
 def wgd_assignment(mutations, edges, clonal_wgd=False, subclonal_wgd=False, n_subclonal_wgd=1, initial_cc=None, subclone_nodes=None):
 
     wgd = dict()
@@ -337,7 +183,10 @@ def generate_events():
 
 def cna_assignment(positions, nodes, edges, leaves, root, initial_cc, prop_snv_truncal, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, constant_multiplicity=True, snv_edge_assign=None, prop_mutloss_positions=0, gain_events=None, loss_events=None, mutloss_truncal=False):
 
-    assert np.round((prop_pos_lost + prop_pos_gained),2) <= 1
+    if np.round((prop_pos_lost + prop_pos_gained),2) > 1:
+        prop_pos_gained = 1 - prop_pos_lost
+
+    assert np.round((prop_pos_lost + prop_pos_gained),2) <= 1, 'Prop pos gained + lost > 1, = {}'.format(np.round((prop_pos_lost + prop_pos_gained),2))
 
     if gain_events is None:
         gain_events = ['gain_A', 'gain_B', 'gain_both']

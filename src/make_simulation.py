@@ -8,7 +8,7 @@ from conversion import *
 
 def make_tx_simulations(n_sims_per_sample_group=50, sample_group_boundaries=(3,7), output_dir=None):
 
-    data = pd.read_csv('../data/TRACERx_data_FINAL.csv', sep='\t')
+    data = pd.read_csv('../data/simulated_TRACERx_data.tsv', sep='\t')
     
     if output_dir is None:
         save_output = False
@@ -87,12 +87,12 @@ def make_tx_simulations(n_sims_per_sample_group=50, sample_group_boundaries=(3,7
         return None
 
 
-purity = (lambda data, feature: sorted(np.random.choice(list(data[data[feature] > 0.2][['PatientCRUK', 'Region', feature]].drop_duplicates()[feature]), 2)))
-coverage = (lambda data, feature: np.random.choice(list(data[['PatientCRUK', 'Region', feature]].drop_duplicates()[feature])))
-muttruncal = (lambda data, feature: np.random.choice(list(data[data[feature] < 0.90][['PatientCRUK', feature]].drop_duplicates()[feature])))
+purity = (lambda data, feature: sorted(np.random.choice(list(data[data[feature] > 0.2][['Patient', 'Region', feature]].drop_duplicates()[feature]), 2)))
+coverage = (lambda data, feature: np.random.choice(list(data[['Patient', 'Region', feature]].drop_duplicates()[feature])))
+muttruncal = (lambda data, feature: np.random.choice(list(data[data[feature] < 0.90][['Patient', feature]].drop_duplicates()[feature])))
 wgd_return = (lambda choice: {'clonal': True, 'subclonal': False} if choice == 'clonal' else {'clonal': False, 'subclonal': True} if choice == 'subclonal' else {'clonal': False, 'subclonal': False})
-wgd = (lambda data, feature: wgd_return(np.random.choice(list(data[['PatientCRUK', feature]].drop_duplicates()[feature]))))
+wgd = (lambda data, feature: wgd_return(np.random.choice(list(data[['Patient', feature]].drop_duplicates()[feature]))))
 gainloss = (lambda patient_data: [patient_data['%PosGained'].values[0], patient_data['%PosLost'].values[0]])
-cna = (lambda data, feature: gainloss(data[data.PatientCRUK == np.random.choice(list(data['PatientCRUK']))][['%PosGained', '%PosLost']].drop_duplicates()))
-nmutations = (lambda data, feature: np.random.choice(list(data[data[feature] > 150][['PatientCRUK', feature]].drop_duplicates()[feature])))
-sample = (lambda data, feature: np.random.choice(list(data[['PatientCRUK', feature]].drop_duplicates()[feature]))) 
+cna = (lambda data, feature: gainloss(data[data.Patient == np.random.choice(list(data['Patient']))][['%PosGained', '%PosLost']].drop_duplicates()))
+nmutations = (lambda data, feature: np.random.choice(list(data[data[feature] > 150][['Patient', feature]].drop_duplicates()[feature])))
+sample = (lambda data, feature: np.random.choice(list(data[['Patient', feature]].drop_duplicates()[feature]))) 

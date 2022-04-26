@@ -29,11 +29,11 @@ def make_tree(leaves):
     return tree_nodes, tree_edges, root, initial_cc
 
 
-def make_tree_internal(leaves, parents): # ABI: this function is only working because you provide the first parent which is a number higher than all leaves. We will need to improve it.
+def make_tree_internal(leaves, parents):
     if len(leaves) == 1:
         return [], parents, leaves[0]     
     else:
-        current_parent = max(parents) + 1 if len(parents) > 0 else 0 # ABI: is this line ever used?
+        current_parent = max(parents) + 1 if len(parents) > 0 else 0 
         parents.append(current_parent)
         left_leaves, right_leaves = split(leaves)
         tree, parents, parent_left = make_tree_internal(left_leaves, parents)

@@ -75,9 +75,7 @@ def calculate_vaf(clone_profiles, sample_clone_prop, diploid, sample_tumour_puri
     
     get_cell_prevalence = (lambda c, p, idx1, idx2: np.array([p if (genotype[idx1] !=1) | (genotype[idx2] !=1) else 0 for pos, genotype in clone_profiles[c].items()]))
     sample_cell_prevalence = (lambda idx1, idx2 : {sample: sum(get_cell_prevalence(clone, prop, idx1, idx2) for clone, prop in proportions.items()) for sample, proportions in sample_clone_prop.items()})
-    #test = (lambda idx1, idx2 : {sample: [get_cell_prevalence(clone, prop, idx1, idx2) for clone, prop in proportions.items()] for sample, proportions in sample_clone_prop.items()})
     cn_prevalence = sample_cell_prevalence(0, 1)
-    #print(cn_prevalence)
 
     fract_copy_num = sample_fract_copies(0, 2)
     fract_variant_cn = tumour_spec_fract_cn(2, 3)
@@ -113,9 +111,6 @@ def calculate_ccf(clone_props, purities, clone_profiles):
     get_sample_purity_name = (lambda sample: int(sample.split(' ')[-1]))
     ccf = {sample: get_sample_proportions(clones)/purities[get_sample_purity_name(sample)] for sample, clones in clone_props.items()}
     return ccf
-
-# copy of c_profile --> where you don't remove mutations if it is lost (dcf profile) --> dcf = fract cells that have ever had the mutation in their history
-# also output clone profiles
 
 def calculate_dcf(clone_props, purities, clone_profiles, dcf_profiles):
     ccf_muts = np.array([b[-1] for k, v in clone_profiles.items() for a, b in v.items()])
