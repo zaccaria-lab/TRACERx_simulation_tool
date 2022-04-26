@@ -2,7 +2,7 @@
 
 
 ## Setup:
-Creating simulations using the tools requires the following packages:
+Creating simulations using the tool requires the following packages:
 
 - Python = 3.9.5
 - Numpy
