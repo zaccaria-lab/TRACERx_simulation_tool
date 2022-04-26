@@ -1,17 +1,17 @@
-# TRACERx evolutionary simulation tool:
+# TRACERx evolutionary simulation tool
 
 
-## Running the tool:
+## Setup:
 Creating simulations using the tools requires the following packages:
 
-1. Python = 3.9.5
-2. Numpy
-3. Pandas
-4. Jupyter 
-5. ipykernel
-6. ipython 
-7. Scipy 
-8. Python-graphviz 
+- Python = 3.9.5
+- Numpy
+- Pandas
+- Jupyter 
+- ipykernel
+- ipython 
+- Scipy 
+- Python-graphviz 
 
 These packages can be installed using anaconda into a new environment and used to create simulations using the following commands:
 
@@ -25,12 +25,13 @@ Then clone the current repo to run the tool using:
 ```shell
 git clone https://github.com/zaccaria-lab/TRACERx_simulation_tool.git
 ```
+## Running the tool:
 
 Simulations can be created using the jupyter notebook 'make_tx_simulations.ipynb' within the scripts directory.
 To create simulations, change the input parameter values to desired values and run all cells.
 
 
-## Inputs:
+### Inputs:
 The tool takes the following inputs -
 
 (The default values are those used to create simulations used to benchmark the TRACERx tree reconstruction tool).
@@ -46,7 +47,7 @@ Alternatively, setting this value to None will use all patient data to create si
 3. output_dir - The output directory to save the simulation output. If this value is set to a file path, a separate directory will be created for each simulation with the prefix 'LTXSIM' within the output directory specified. Alternatively, if the output_directory is None, the simulation phylogenetic tree diagram will be printed and simulation output will be saved to a dictionary within the jupyter notebook where each simulation output can be accessed with 'LTXSIM{simulation number}'. (Default: None)
 
 
-## Outputs:
+### Outputs:
 
 Each simulations will be named 'LTXSIM{simulation number}'. In the case of separate sample groups, simulations will be numbered as follows: 
  - Low: (1 - n_sims_per_sample_group)
