@@ -39,9 +39,9 @@ The tool takes the following inputs -
 1. n_sims_per_sample_group - The number of simulations you would like to create. If the sample_group_boundaries parameter is not set to None, the number of simulations set will be created for each of the sample groups. (Default: 50). 
 
 2. sample_group_boundaries - Enables the possibility to split the data into 3 groups (low, medium and high) in terms of the number of samples available for each patient. Setting this parameter to a tuple (a,b) will create simulations sampled from data of patients with samples:
-- Low: <= a (# nodes sampled uniformly from 8-16)
-- Medium: > a, <= b (# nodes sampled uniformly from 12-24)
-- High: > b (# nodes sampled uniformly from 22-30)
+  - Low: <= a (# nodes sampled uniformly from 8-16)
+  - Medium: > a, <= b (# nodes sampled uniformly from 12-24)
+  - High: > b (# nodes sampled uniformly from 22-30)
 
   Alternatively, setting this value to None will use all patient data to create simulations (# nodes sampled uniformly from 8-30). (Default: (3,7))
 
