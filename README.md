@@ -62,16 +62,19 @@ The tool takes the following inputs (Note: The default values are those used to 
 
 ### Outputs
 
-Each simulations will be named `LTXSIM{simulation #}`. In the case of separate sample groups, simulations will be numbered as follows: 
+Each of the simulations will be named `LTXSIM{simulation #}`. In the case of separate sample groups, simulations will be numbered as follows: 
  - Low: `(1, ...,  n_sims_per_sample_group)`
  - Medium: `(n_sims_per_sample_group + 1, ...,  2 * n_sims_per_sample_group)`
  - High: `((2 * n_sims_per_sample_group) + 1, ..., 3 * n_sims_per_sample_group)`.
 
+
 The output of the tool consists of an image of the phylogenetic tree and dataframes containing information about the simulation.
 
-If the output is returned, the information is stored in a dictionary where each output dataframe can be accessed by indexing the name of the simulation and the output dataframe name. E.g. `output['LTXSIM{sim #}][{output df name}]`.
+If the output is returned, the information is stored in a dictionary where each output dataframe can be accessed by indexing the name of the simulation and the output dataframe name (shown below). E.g. `output['LTXSIM{simulation #}][{output df name}]`.
 
-Alternatively, if an output directory is provided, all output is saved within a separate directory for each simulation. The naming format for the saved output is LTXSIM{simulation number} plus a separate suffix for each output (shown in brackets below). E.g. `output_dir/LTXSIM{simulation #}/LTXSIM{simulation #}{output suffix}`.
+Alternatively, if an output directory is provided, all output is saved within a separate directory for each simulation. The naming format for the saved output is LTXSIM{simulation #} plus a separate suffix for each output (shown in brackets below). E.g. `output_dir/LTXSIM{simulation #}/LTXSIM{simulation #}{output suffix}`.
+
+The output of the simulations are as follows:
 
 1. `patient_info_df` (_info.tsv): The parameters used to create the simulation.
 
