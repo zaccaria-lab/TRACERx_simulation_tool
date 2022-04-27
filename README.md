@@ -76,11 +76,11 @@ Alternatively, if an output directory is provided, all output is saved within a 
 
 The output of the simulations are as follows:
 
-1. `patient_info_df` (_info.tsv): The parameters used to create the simulation.
+1. `patient_info_df (_info.tsv)`: The parameters used to create the simulation.
 
-2. `variant_df` (.tsv): Simulated variant read count data for each mutation within the simulated phylogenetic tree for each simulated sample.
+2. `variant_df (.tsv)`: Simulated variant read count data for each mutation within the simulated phylogenetic tree for each simulated sample.
 
-3. `clone_df` (_cloneprops.tsv): Information regarding the clones present in each simulated sample, along with the clone proportions for each present clone.
+3. `clone_df (_cloneprops.tsv)`: Information regarding the clones present in each simulated sample, along with the clone proportions for each present clone.
 
 4. `edges_df (_treeedges.tsv)`: Summary information for the number of events that are simulated on each phylogenetic tree branch (identified as Parent --> Child), including: SNVs, CNA gains, CNA losses, WGD and whether the branch is Truncal.
 
