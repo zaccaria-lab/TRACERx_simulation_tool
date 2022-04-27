@@ -38,7 +38,7 @@ This will open a jupyter notebook on the deafult browser, which can be used to o
 ## Running the tool:
 ### Scripts 
 
-Simulations can be created using the jupyter notebook (make_tx_simulations.ipynb)[scripts/make_tx_simulations.ipynb] within the scripts directory (click on the scipt link to visualise an available example of execution).
+Simulations can be created using the jupyter notebook (make_tx_simulations.ipynb)[scripts/make_tx_simulations.ipynb] within the scripts directory (click on the script link to visualise an available example of execution).
 To create simulations, change the input parameter values to desired values and run cells in the section `1. Code to create TRACERx simulated evolutionary trees and sequencing data`.
 The following section `2. Example Simulation` gives an example of the output when creating a simulation.
 
@@ -57,18 +57,21 @@ The tool takes the following inputs (Note: The default values are those used to 
   - Medium: `> a, <= b` (# nodes sampled uniformly from `12-24`)
   - High: `> b` (# nodes sampled uniformly from `22-30`)
 
-3. `output_dir`: The output directory to save the simulation output. If this value is set to a file path, a separate directory will be created for each simulation with the prefix `LTXSIM` within the output directory specified. Alternatively, if the `output_directory` is `None`, the simulation phylogenetic tree diagram will be printed and simulation output will be saved to a dictionary within the jupyter notebook where each simulation output can be accessed with `LTXSIM{simulation number}`. (Default: `None`)
+3. `output_dir`: The output directory to save the simulation output. If this value is set to a file path, a separate directory will be created for each simulation with the prefix `LTXSIM` within the output directory specified. Alternatively, if the `output_directory` is `None`, the simulation phylogenetic tree diagram will be printed and simulation output will be saved to a dictionary within the jupyter notebook where each simulation output can be accessed with `LTXSIM{simulation #}`. (Default: `None`)
 
 
 ### Outputs
 
-Each simulations will be named `LTXSIM{simulation number}`. In the case of separate sample groups, simulations will be numbered as follows: 
+Each simulations will be named `LTXSIM{simulation #}`. In the case of separate sample groups, simulations will be numbered as follows: 
  - Low: `(1, ...,  n_sims_per_sample_group)`
  - Medium: `(n_sims_per_sample_group + 1, ...,  2 * n_sims_per_sample_group)`
  - High: `((2 * n_sims_per_sample_group) + 1, ..., 3 * n_sims_per_sample_group)`.
 
+The output of the tool consists of an image of the phylogenetic tree and dataframes containing information about the simulation.
 
-The tool provides the following outputs shown as: output file name if returned (output suffix if saved):
+If the output is returned, the information is stored in a dictionary where each output dataframe can be accessed by indexing the name of the simulation and the output dataframe name. E.g. `output['LTXSIM{sim #}][{output df name}]`.
+
+Alternatively, if an output directory is provided, all output is saved within a separate directory for each simulation. The naming format for the saved output is LTXSIM{simulation number} plus a separate suffix for each output (shown in brackets below). E.g. `output_dir/LTXSIM{simulation #}/LTXSIM{simulation #}{output suffix}`.
 
 1. `patient_info_df` (_info.tsv): The parameters used to create the simulation.
 
