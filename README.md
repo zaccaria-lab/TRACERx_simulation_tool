@@ -70,9 +70,9 @@ Each of the simulations will be named `LTXSIM{simulation #}`. In the case of sep
 
 The output of the tool consists of an image of the phylogenetic tree and dataframes containing information about the simulation.
 
-If the output is returned, the information is stored in a dictionary where each output dataframe can be accessed by indexing the name of the simulation and the output dataframe name (shown below). E.g. `output['LTXSIM{simulation #}][{output df name}]`.
+If the output is returned, the information is stored in a dictionary where each output dataframe can be accessed by indexing the name of the simulation and the output dataframe name (shown below). E.g. ```shell output['LTXSIM{simulation #}][{output df name}]```.
 
-Alternatively, if an output directory is provided, all output is saved within a separate directory for each simulation. The naming format for the saved output is LTXSIM{simulation #} plus a separate suffix for each output (shown in brackets below). E.g. `output_dir/LTXSIM{simulation #}/LTXSIM{simulation #}{output suffix}`.
+Alternatively, if an output directory is provided, all output is saved within a separate directory for each simulation. The naming format for the saved output is LTXSIM{simulation #} plus a separate suffix for each output (shown in brackets below). E.g. ```shell output_dir/LTXSIM{simulation #}/LTXSIM{simulation #}{output suffix}```.
 
 The output of the simulations are as follows:
 
