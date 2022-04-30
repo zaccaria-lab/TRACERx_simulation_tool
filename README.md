@@ -1,5 +1,6 @@
 # TRACERx evolutionary simulation tool
 
+Simuulation framework for tumour evolutionary histories. Examples and demos are available at [make_tx_simulations.ipynb](scripts/make_tx_simulations.ipynb).
 
 ## Setup:
 Creating simulations using the tool requires the following packages:
@@ -38,7 +39,7 @@ This will open a jupyter notebook on the deafult browser, which can be used to o
 ## Running the tool:
 ### Scripts 
 
-Simulations can be created using the jupyter notebook (make_tx_simulations.ipynb)[scripts/make_tx_simulations.ipynb] within the scripts directory (click on the script link to visualise an available example of execution).
+Simulations can be created using the jupyter notebook [make_tx_simulations.ipynb](scripts/make_tx_simulations.ipynb) within the scripts directory (click on the script link to visualise an available example of execution).
 To create simulations, change the input parameter values to desired values and run cells in the section `1. Code to create TRACERx simulated evolutionary trees and sequencing data`.
 The following section `2. Example Simulation` gives an example of the output when creating a simulation.
 
