@@ -188,3 +188,66 @@ def simulation(n_nodes, n_positions, max_positions, prop_truncal_snvs, prop_pos_
     edge_position_profiles = pd.DataFrame(edge_events).reset_index().rename(columns={'index': 'VAR_POS'})
 
     return total_profiles, dcf_profiles, edges_df, snv_edge_assign_df, edge_position_profiles, root, leaves, prop_mutation_loss, warnings 
+
+
+def simulate_evolution(sim_name,
+                       n_nodes, 
+                       n_positions, 
+                       max_positions, 
+                       prop_truncal_snvs, 
+                       prop_pos_gained, 
+                       prop_pos_lost, 
+                       prop_gained_truncal, 
+                       prop_lost_truncal, 
+                       clonal_wgd=False, 
+                       subclonal_wgd=False, 
+                       n_subclonal_wgd=1, 
+                       minimum_branch_length=1, 
+                       constant_multiplicity=True, 
+                       prop_mutloss_positions=0, 
+                       gain_events=None, 
+                       loss_events=None, 
+                       mutloss_truncal=False, 
+                       output_directory=None,
+                       save_output=True,
+                       display_output=False):
+    
+    if save_output:
+        assert output_directory is not None, 'If saving output, please specify an output_directory.'
+        save_dir = os.path.join(output_directory, sim_name, 'sim')
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        save_as_png = os.path.join(save_dir, sim_name + '_tree')
+    else:
+        save_as_png = False
+        
+    sim_info_df = {'sim_name' : sim_name, 'n_nodes' : n_nodes, 'n_positions' : n_positions, 'max_positions' : max_positions, 'prop_truncal_snvs' : prop_truncal_snvs, 'prop_pos_gained' : prop_pos_gained, 
+                    'prop_pos_lost' : prop_pos_lost, 'prop_gained_truncal' : prop_gained_truncal, 'prop_lost_truncal' : prop_lost_truncal, 'clonal_wgd' : clonal_wgd, 'subclonal_wgd' : subclonal_wgd, 
+                    'n_subclonal_wgd' : n_subclonal_wgd, 'minimum_branch_length' : minimum_branch_length, 'constant_multiplicity' : constant_multiplicity, 'prop_mutloss_positions' : prop_mutloss_positions, 
+                    'gain_events' : gain_events, 'loss_events' : loss_events, 'mutloss_truncal' : mutloss_truncal}
+    
+    
+    total_profiles, dcf_profiles, edges_df, snv_edge_assign_df, edge_position_profiles, root, leaves, prop_mutation_loss, warnings = simulation(n_nodes, n_positions, max_positions, prop_truncal_snvs, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, clonal_wgd, subclonal_wgd, n_subclonal_wgd, minimum_branch_length, constant_multiplicity, prop_mutloss_positions, gain_events, loss_events, mutloss_truncal, display_output, save_as_png)
+    cnA_df, cnB_df, snv_df = get_profile_dataframes(total_profiles)
+    
+    sim_info_df['warnings'] = str(warnings) if len(warnings) > 0 else np.NaN
+    sim_info_df = pd.DataFrame(sim_info_df, index=['value']).T.reset_index().rename(columns={'index' : 'parameter'})
+    
+    if save_output:
+        cnA_df.to_csv(os.path.join(save_dir, sim_name + '_cnA_matrix.tsv'), index=False, sep='\t')
+        cnB_df.to_csv(os.path.join(save_dir, sim_name + '_cnB_matrix.tsv'), index=False, sep='\t')
+        snv_df.to_csv(os.path.join(save_dir, sim_name + '_genotype_matrix.tsv'), index=False, sep='\t')
+        edges_df.to_csv(os.path.join(save_dir, sim_name + '_treeedges.tsv'), index=False, sep='\t')
+        sim_info_df.to_csv(os.path.join(save_dir, sim_name + '_info.tsv'), index=False, sep='\t')
+
+    if display_output == True:
+        return sim_info_df, edges_df, cnA_df, cnB_df, snv_df
+    
+    
+def get_profile_dataframes(total_profiles):
+    profile_df = pd.melt(pd.DataFrame.from_dict(total_profiles).reset_index(), id_vars=['index'], var_name='node', value_name='profile').rename(columns={'index' : 'var_pos'})
+    profile_df[['cn_a', 'cn_b', 'snv']] = profile_df['profile'].apply(lambda x: x.tolist()).tolist()
+    cnA_df = profile_df.pivot_table(index='node', columns='var_pos', values='cn_a')
+    cnB_df = profile_df.pivot_table(index='node', columns='var_pos', values='cn_b')
+    snv_df = profile_df.pivot_table(index='node', columns='var_pos', values='snv')
+    return cnA_df, cnB_df, snv_df
