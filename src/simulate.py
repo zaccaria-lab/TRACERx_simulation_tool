@@ -240,8 +240,7 @@ def simulate_evolution(sim_name,
         edges_df.to_csv(os.path.join(save_dir, sim_name + '_treeedges.tsv'), index=False, sep='\t')
         sim_info_df.to_csv(os.path.join(save_dir, sim_name + '_info.tsv'), index=False, sep='\t')
 
-    if display_output == True:
-        return sim_info_df, edges_df, cnA_df, cnB_df, snv_df
+    return sim_info_df, edges_df, cnA_df, cnB_df, snv_df
     
     
 def get_profile_dataframes(total_profiles):
