@@ -101,12 +101,12 @@ def tx_simulation(patient_name,
         plot_variant_data(variant_df, 'CCF_OBS', save_as=ccf_save, display=display_plots)
 
     if save_output == True:
-        variant_df.to_csv(os.path.join(save_dir, patient_name + '.tsv'), index=False, sep='\t')
-        tx_input_df.to_csv(os.path.join(save_dir, patient_name + '_TX.tsv'), index=False, sep='\t')
-        clone_df.to_csv(os.path.join(save_dir, patient_name + '_cloneprops.tsv'), index=False, sep='\t')
-        edges_df.to_csv(os.path.join(save_dir, patient_name + '_treeedges.tsv'), index=False, sep='\t')
-        patient_info_df.to_csv(os.path.join(save_dir, patient_name + '_info.tsv'), index=False, sep='\t')
-        edge_position_events_df.to_csv(os.path.join(save_dir, patient_name + '_events.tsv'), index=False, sep='\t')
+        variant_df.to_csv(os.path.join(save_dir, patient_name + '.tsv'), sep='\t')
+        tx_input_df.to_csv(os.path.join(save_dir, patient_name + '_TX.tsv'), sep='\t')
+        clone_df.to_csv(os.path.join(save_dir, patient_name + '_cloneprops.tsv'), sep='\t')
+        edges_df.to_csv(os.path.join(save_dir, patient_name + '_treeedges.tsv'), sep='\t')
+        patient_info_df.to_csv(os.path.join(save_dir, patient_name + '_info.tsv'), sep='\t')
+        edge_position_events_df.to_csv(os.path.join(save_dir, patient_name + '_events.tsv'), sep='\t')
 
     if display_output == True:
         return patient_info_df, variant_df, clone_df, edges_df, tx_input_df, edge_position_events_df
@@ -234,11 +234,11 @@ def simulate_evolution(sim_name,
     sim_info_df = pd.DataFrame(sim_info_df, index=['value']).T.reset_index().rename(columns={'index' : 'parameter'})
     
     if save_output:
-        cnA_df.to_csv(os.path.join(save_dir, sim_name + '_cnA_matrix.tsv'), index=False, sep='\t')
-        cnB_df.to_csv(os.path.join(save_dir, sim_name + '_cnB_matrix.tsv'), index=False, sep='\t')
-        snv_df.to_csv(os.path.join(save_dir, sim_name + '_genotype_matrix.tsv'), index=False, sep='\t')
-        edges_df.to_csv(os.path.join(save_dir, sim_name + '_treeedges.tsv'), index=False, sep='\t')
-        sim_info_df.to_csv(os.path.join(save_dir, sim_name + '_info.tsv'), index=False, sep='\t')
+        cnA_df.to_csv(os.path.join(save_dir, sim_name + '_cnA_matrix.tsv'), sep='\t')
+        cnB_df.to_csv(os.path.join(save_dir, sim_name + '_cnB_matrix.tsv'), sep='\t')
+        snv_df.to_csv(os.path.join(save_dir, sim_name + '_genotype_matrix.tsv'), sep='\t')
+        edges_df.to_csv(os.path.join(save_dir, sim_name + '_treeedges.tsv'), sep='\t')
+        sim_info_df.to_csv(os.path.join(save_dir, sim_name + '_info.tsv'), sep='\t')
 
     return sim_info_df, edges_df, cnA_df, cnB_df, snv_df
     
