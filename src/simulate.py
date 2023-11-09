@@ -47,7 +47,7 @@ def tx_simulation(patient_name,
 
     if save_output == True:
         assert output_directory is not None, 'Please specify an output_directory'
-        save_dir = os.path.join(output_directory, patient_name, 'sim')
+        save_dir = os.path.join(output_directory, patient_name)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
 
@@ -214,7 +214,7 @@ def simulate_evolution(sim_name,
     
     if save_output:
         assert output_directory is not None, 'If saving output, please specify an output_directory.'
-        save_dir = os.path.join(output_directory, sim_name, 'sim')
+        save_dir = os.path.join(output_directory, sim_name)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
         save_as_png = os.path.join(save_dir, sim_name + '_tree')
