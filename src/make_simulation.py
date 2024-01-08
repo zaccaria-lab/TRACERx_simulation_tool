@@ -8,7 +8,7 @@ from conversion import *
 
 def make_tx_simulations(n_sims_per_sample_group=50, sample_group_boundaries=(3,7), output_dir=None):
 
-    data = pd.read_csv('../data/simulated_TRACERx_data.tsv', sep='\t')
+    data = pd.read_csv('../data/TRACERx_data.tsv', sep='\t')
     
     if output_dir is None:
         save_output = False
