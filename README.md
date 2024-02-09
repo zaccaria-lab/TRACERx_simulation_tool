@@ -1,6 +1,6 @@
 # TRACERx evolutionary simulation tool
 
-Simuulation framework for tumour evolutionary histories. Examples and demos are available at [make_tx_simulations.ipynb](scripts/make_tx_simulations.ipynb).
+Simulation framework for tumour evolutionary histories. Examples and demos are available at [make_tx_simulations.ipynb](scripts/make_tx_simulations.ipynb).
 
 ## Setup:
 Creating simulations using the tool requires the following packages:
