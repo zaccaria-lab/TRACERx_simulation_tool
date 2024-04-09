@@ -34,11 +34,11 @@ def convert_tree_building_format(variant_df, patient_name):
 
 def assign_chr_pos_correct(df, n_positions):
     chr_lengths = np.array([247199719, 242751149, 199446827, 191263063, 180837866, 170896993, 158821424, 146274826, 140442298, 135374737, 134452384, 132289534, 114127980, 106360585, 100338915, 88822254, 78654742, 76117153, 63806651, 62435965, 46944323, 49528953])
-    chr_lengths_dict= dict(zip(np.arange(1,23), chr_lengths))
+    chr_lengths_dict = dict(zip(np.arange(1,23), chr_lengths))
     chr_prop = chr_lengths / sum(chr_lengths)
     chr = np.random.choice(np.arange(1,23), size=n_positions, p=chr_prop)
     pos = np.array([np.random.randint(1, chr_lengths[i-1]) for i in chr])
-    chr_pos_df = pd.DataFrame([chr, pos], index=['CHR', 'POS']).T
+    chr_pos_df = pd.DataFrame([chr, pos], index=['CHR', 'POS']).T.reset_index().rename(columns={'index':'Variant_Position'})
     assert len(chr_pos_df.drop_duplicates()) == len(chr_pos_df)
-    df = df.merge(chr_pos_df, left_on='Variant_Position', right_on=chr_pos_df.index, how='left')
+    df = df.merge(chr_pos_df, on='Variant_Position', how='left')
     return df

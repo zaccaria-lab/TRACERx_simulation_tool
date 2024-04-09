@@ -59,14 +59,11 @@ def tx_simulation(patient_name,
     n_noise = round(n_positions * fract_noise)
     n_pos = n_positions + n_noise
 
-
-
     variant_df, clone_df, edges_df, edge_position_profiles, prop_mutation_loss, warnings = make_a_simulation(n_nodes, n_pos, n_samples, min_clones_per_sample, max_clones_per_sample,
                                                                     max_positions, prop_truncal_snvs, prop_pos_gained, prop_pos_lost, prop_gained_truncal,
                                                                     prop_lost_truncal, clonal_wgd, subclonal_wgd, n_subclonal_wgd, minimum_branch_length, constant_multiplicity, prop_mutloss_positions,
                                                                     gain_events, loss_events, mutloss_truncal, all_leaf_observed, coverage, min_tumour_purity, max_tumour_purity, rs, display_plots, 
-                                                                    save_as_png=save_as_png)
-
+                                                                    save_as_png=save_as_png) 
     if fract_noise > 0:
         assert n_noise_clones > 0, 'If noisy clusters are added to the simulation, the n_noise_clones must be > 0'
         variant_df, noise_clones = add_noise(variant_df, n_noise, n_noise_clones, n_pos, noise_type, edges_df)
@@ -155,16 +152,13 @@ def make_a_simulation(n_nodes,
                     save_as_png=False):
     
     np.random.seed(rs)
-    
     clone_profiles, dcf_profiles, edges_df, snv_edge_df, edge_position_profiles, diploid, leaves, prop_mutation_loss, warnings = simulation(n_nodes, n_positions, max_positions, prop_truncal_snvs, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, clonal_wgd, subclonal_wgd, n_subclonal_wgd, minimum_branch_length, constant_multiplicity, prop_mutloss_positions, gain_events, loss_events, mutloss_truncal, display, save_as_png)
     variant_df, clone_prop_df = make_sequencing_data(clone_profiles, dcf_profiles, n_samples, min_clones_per_sample, max_clones_per_sample, diploid, all_leaf_observed, leaves, coverage, min_tumour_purity, max_tumour_purity)
     variant_df = variant_df.merge(snv_edge_df, on='Variant_Position')
-    
     return variant_df, clone_prop_df, edges_df, edge_position_profiles, prop_mutation_loss, warnings
 
 
 def simulation(n_nodes, n_positions, max_positions, prop_truncal_snvs, prop_pos_gained, prop_pos_lost, prop_gained_truncal, prop_lost_truncal, clonal_wgd=False, subclonal_wgd=False, n_subclonal_wgd=1, minimum_branch_length=1, constant_multiplicity=True, prop_mutloss_positions=0, gain_events=None, loss_events=None, mutloss_truncal=False, display_tree=False, save_as_png=False):
-    
     nodes, edges, root, initial_cc = simulate_topology(n_nodes)
     parents, children = np.array(list(zip(*edges)))
     leaves = children[~np.isin(children, parents)]
@@ -174,7 +168,6 @@ def simulation(n_nodes, n_positions, max_positions, prop_truncal_snvs, prop_pos_
         display(tree_graphing_profiles(total_profiles, edge_label_profiles, root, n_positions, max_positions, save_as_png))
     else:
         tree_graphing_profiles(total_profiles, edge_label_profiles, root, n_positions, max_positions, save_as_png) 
-
     edges_df = pd.DataFrame(edge_label_profiles).T.reset_index().fillna(0).astype(int)
 
     if clonal_wgd == False and (subclonal_wgd == False or n_subclonal_wgd == 0):
